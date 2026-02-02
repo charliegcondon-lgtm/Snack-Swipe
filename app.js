@@ -20,17 +20,13 @@ const orderBtn = document.getElementById("orderBtn");
 
 function loadVideo() {
   const item = videos[current];
+  vid.pause();
   vid.src = item.src;
+  vid.load();              // IMPORTANT for iOS
   foodName.textContent = item.name;
   foodPlace.textContent = item.place;
-
-  vid.load();
-  vid.play().catch(() => {
-    // iOS requires user interaction first
-  });
 }
 
-// ---- SWIPE ----
 let startY = 0;
 
 document.addEventListener("touchstart", e => {
@@ -41,7 +37,7 @@ document.addEventListener("touchend", e => {
   const endY = e.changedTouches[0].clientY;
   const diff = startY - endY;
 
-  if (Math.abs(diff) < 40) return;
+  if (Math.abs(diff) < 50) return;
 
   if (diff > 0) {
     current = (current + 1) % videos.length;
@@ -51,11 +47,6 @@ document.addEventListener("touchend", e => {
 
   loadVideo();
 });
-
-// REQUIRED for iOS: first tap enables video
-document.addEventListener("click", () => {
-  vid.play();
-}, { once: true });
 
 orderBtn.onclick = () => {
   alert("Order from " + foodPlace.textContent);
