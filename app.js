@@ -16,7 +16,6 @@ let current = 0;
 const vid = document.getElementById("vid");
 const foodName = document.getElementById("foodName");
 const foodPlace = document.getElementById("foodPlace");
-const nextBtn = document.getElementById("nextBtn");
 const orderBtn = document.getElementById("orderBtn");
 
 function loadVideo() {
@@ -24,13 +23,39 @@ function loadVideo() {
   vid.src = item.src;
   foodName.textContent = item.name;
   foodPlace.textContent = item.place;
-  vid.play();
+
+  vid.load();
+  vid.play().catch(() => {
+    // iOS requires user interaction first
+  });
 }
 
-nextBtn.onclick = () => {
-  current = (current + 1) % videos.length;
+// ---- SWIPE ----
+let startY = 0;
+
+document.addEventListener("touchstart", e => {
+  startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", e => {
+  const endY = e.changedTouches[0].clientY;
+  const diff = startY - endY;
+
+  if (Math.abs(diff) < 40) return;
+
+  if (diff > 0) {
+    current = (current + 1) % videos.length;
+  } else {
+    current = (current - 1 + videos.length) % videos.length;
+  }
+
   loadVideo();
-};
+});
+
+// REQUIRED for iOS: first tap enables video
+document.addEventListener("click", () => {
+  vid.play();
+}, { once: true });
 
 orderBtn.onclick = () => {
   alert("Order from " + foodPlace.textContent);
