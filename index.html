@@ -1,17 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>SnackSwipe</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- App Style -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>SnackSwipe</h1>
-  <p>Swipe food. Order snacks.</p>
+  <div id="app">
 
-  <button onclick="alert('Order clicked!')">ORDER</button>
+    <!-- VIDEO -->
+    <video
+      id="vid"
+      autoplay
+      muted
+      loop
+      playsinline
+    ></video>
 
+    <!-- OVERLAY -->
+    <div id="overlay">
+      <h2 id="foodName">Food Name</h2>
+      <p id="foodPlace">Restaurant</p>
+
+      <button id="orderBtn">ORDER</button>
+      <button id="nextBtn">NEXT</button>
+    </div>
+
+  </div>
+
+  <!-- APP LOGIC -->
   <script src="app.js"></script>
 </body>
-</html>
+</html> 
